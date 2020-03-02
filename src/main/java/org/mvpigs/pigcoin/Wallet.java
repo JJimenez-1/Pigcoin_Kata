@@ -12,10 +12,23 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
 
+    /**
+    public void generateKeyPair() {
+        KeyPair pair = generateKeyPair();
+        this.setAddress(pair.getPublic());
+        this.
+    }
+     */
     public void setAddress(PublicKey pKey) {
         this.address = pKey;
     }
     public PublicKey getAddress() {
         return address;
+    }
+    public void setSkey(PrivateKey sKey) {
+        this.sKey = sKey;
+    }
+    public PrivateKey getSKey() {
+        return sKey;
     }
 }

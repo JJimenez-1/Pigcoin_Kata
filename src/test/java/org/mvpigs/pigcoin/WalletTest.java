@@ -18,4 +18,12 @@ public class WalletTest {
         wallet.setAddress(pair.getPublic());
         assertEquals(pair.getPublic(), wallet.getAddress());
     }
+
+    @Test
+    public void setygetSKeyTest() {
+        Wallet wallet = new Wallet();
+        KeyPair pair = GenSig.generateKeyPair();
+        wallet.setSkey(pair.getPrivate());
+        assertEquals(pair.getPrivate(), wallet.getSKey());
+    }
 }
