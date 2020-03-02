@@ -23,7 +23,16 @@ public class WalletTest {
     public void setygetSKeyTest() {
         Wallet wallet = new Wallet();
         KeyPair pair = GenSig.generateKeyPair();
-        wallet.setSkey(pair.getPrivate());
+        wallet.setSK(pair.getPrivate());
         assertEquals(pair.getPrivate(), wallet.getSKey());
     }
+
+    /**
+    @Test
+    public void generateKeyPairTest() {
+        Wallet wallet = new Wallet();
+        wallet.generateKeyPair();
+        wallet.setAddress(wallet.getAddress());
+        wallet.setSK(wallet.getSKey());
+    }*/
 }

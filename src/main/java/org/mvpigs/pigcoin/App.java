@@ -17,9 +17,7 @@ public class App {
 
         Wallet wallet_1 = new Wallet();
         KeyPair pair = GenSig.generateKeyPair();
-        /**
         wallet_1.setSK(pair.getPrivate());
-         */
         wallet_1.setAddress(pair.getPublic());
 
         System.out.println("\n Direccion de la Wallet_1: \n" +  wallet_1.getAddress().hashCode());
@@ -29,7 +27,7 @@ public class App {
          * con un metodo wallet.generateKeyPair() que encapsula
          * el codigo de la anterior historia de usuario
          */
-     /**
+
         Wallet wallet_2 = new Wallet();
         wallet_2.generateKeyPair();
 
@@ -38,7 +36,7 @@ public class App {
         /**
          * Visualiza las Wallet 1 y 2
          */
-    /**
+
         System.out.println("\n" + "Ver Wallets 1 y 2" + "\n" +
                 "================="        );
 

@@ -12,23 +12,29 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
 
-    /**
+
     public void generateKeyPair() {
-        KeyPair pair = generateKeyPair();
+        KeyPair pair = org.mvpigs.pigcoin.GenSig.generateKeyPair();
         this.setAddress(pair.getPublic());
-        this.
+        this.setSK(pair.getPrivate());
     }
-     */
     public void setAddress(PublicKey pKey) {
         this.address = pKey;
     }
     public PublicKey getAddress() {
         return address;
     }
-    public void setSkey(PrivateKey sKey) {
+    public void setSK(PrivateKey sKey) {
         this.sKey = sKey;
     }
     public PrivateKey getSKey() {
         return sKey;
+    }
+
+    @Override
+    public String toString(){
+        return '\n' + "Wallet = " + getAddress().hashCode() + '\n' + "Total input = "
+                + total_input + '\n' + "Total output = "
+                + total_output + '\n' + "Balance = " + balance + '\n';
     }
 }
