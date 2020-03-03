@@ -12,6 +12,7 @@ public class Wallet {
     private double total_input = 0d;
     private double total_output = 0d;
 
+    public Wallet() {}
 
     public void generateKeyPair() {
         KeyPair pair = org.mvpigs.pigcoin.GenSig.generateKeyPair();
