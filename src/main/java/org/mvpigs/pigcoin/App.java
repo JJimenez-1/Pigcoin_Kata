@@ -60,7 +60,7 @@ public class App {
          * Crea el blockchain
          * y añade transacciones que crean moneda "pigcoins"
          */
-    /**
+
         System.out.println("\n" + "Ver BlockChain" + "\n" +
                 "=============="        );
 
