@@ -32,6 +32,10 @@ public class Wallet {
         return sKey;
     }
 
+    public void loadCoins(BlockChain bChain) {
+
+    }
+
     @Override
     public String toString(){
         return '\n' + "Wallet = " + getAddress().hashCode() + '\n' + "Total input = "

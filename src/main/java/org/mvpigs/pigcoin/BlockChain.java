@@ -14,10 +14,11 @@ public class BlockChain {
             System.out.println(transaction);
         }
     }
-
     public void summarize(Integer index) {
         System.out.println(blockChain.get(index));
     }
+
+
     public void addOrigin(Transaction transaction) {
         blockChain.add(transaction);
     }
