@@ -82,7 +82,7 @@ public class App {
         /**
          * Ve la transaccion de una posicion determinada del blockchain
          */
-    /**
+
         Integer position = 1;
         System.out.println("\n" + "Ver Transaccion en posicion " + position.toString() + " del BlockChain" + "\n" +
                 "============================================"        );
