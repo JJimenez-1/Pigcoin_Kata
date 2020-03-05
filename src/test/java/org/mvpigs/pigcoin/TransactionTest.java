@@ -1,7 +1,6 @@
 package org.mvpigs.pigcoin;
 
-import org.mvpigs.pigcoin.GenSig;
-import org.junit.Before;
+
 import org.junit.Test;
 
 import java.security.KeyPair;

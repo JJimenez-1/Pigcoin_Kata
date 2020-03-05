@@ -5,6 +5,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Wallet {
 
@@ -32,14 +33,30 @@ public class Wallet {
     public void setSK(PrivateKey sKey) {
         this.sKey = sKey;
     }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+    public double getBalance() {
+        return balance;
+    }
+
     public PrivateKey getSKey() {
         return sKey;
     }
     List<Transaction> getInputTransactions() {
         return inputTransactions;
     }
-    List<Transaction> getOnputTransactions() {
+    List<Transaction> getOutputTransactions() {
         return outputTransactions;
+    }
+
+    public void loadCoins(BlockChain bChain) {
+        Map<String, Double> pigcoins = bChain.loadWallet(getAddress());
+        double balanceout = total_output + pigcoins.get("output");
+        double balancein = total_input + pigcoins.get("input");
+        double totalBalance = balance + balancein - balanceout;
+        setBalance(totalBalance);
     }
 
     public void loadInputTransactions(BlockChain bChain) {

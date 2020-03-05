@@ -3,11 +3,13 @@
  */
 package org.mvpigs.pigcoin;
 
+import org.checkerframework.common.value.qual.StaticallyExecutable;
 import org.junit.Test;
 
 import java.security.KeyPair;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -27,6 +29,20 @@ public class WalletTest {
         KeyPair pair = GenSig.generateKeyPair();
         wallet.setSK(pair.getPrivate());
         assertEquals(pair.getPrivate(), wallet.getSKey());
+    }
+
+    @Test
+    public void loadCoinsTest() {
+        BlockChain blockchain = new BlockChain();
+        KeyPair pair = GenSig.generateKeyPair();
+        Wallet wallet = new Wallet();
+        wallet.setAddress(pair.getPublic());
+        Wallet wallet2 = new Wallet();
+        wallet2.setAddress(pair.getPublic());
+        Transaction transaction = new Transaction("hash_49", "48", wallet.getAddress(), wallet2.getAddress(), 10, "Devuelvememelo");
+        Map<String, Double> pigcoins = blockchain.loadWallet(wallet.getAddress());
+        wallet.loadCoins(blockchain);
+        assertEquals(10, wallet2.getBalance(), 0.001);
     }
     /**
     @Test

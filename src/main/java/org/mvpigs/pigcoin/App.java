@@ -95,7 +95,7 @@ public class App {
          * que se han recibido
          * y el balance
          */
-    /**
+
         System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" +
                 "=========================================="        );
 
@@ -111,7 +111,7 @@ public class App {
          * y enviadas (aquellas que envian pigcoins)
          * y mostrarlas
          */
-    /**
+
         System.out.println("\n" + "Ver las transacciones ENTRANTES de la wallet_1" + "\n" +
                 "=============================================="        );
         wallet_1.loadInputTransactions(bChain);
@@ -135,7 +135,7 @@ public class App {
          * Recargamos la wallet_1
          * y visualizamos el blockchain
          */
-    /**
+
         System.out.println("\n" + ">>>>>>>>>>>> RECARGA WALLET_1 >>>>>>>>>>>>" + "\n");
 
         trx = new Transaction("hash_4", "2", origin.getAddress(), wallet_1.getAddress(), 20, "sausages puagh!");
@@ -182,7 +182,7 @@ public class App {
          *
          * A continuacion se detalla la responsabilidad de cada metodo.
          */
-    /**
+
         System.out.println("\n" + ">>>>>>>>>>>> Wallet_1 envia transaccion de pigcoins a wallet_2 >>>>>>>>>>>>" + "\n");
 
         /**
@@ -203,7 +203,7 @@ public class App {
          */
     /**
         Double pigcoins = 25d;
-        Map<String, Double> consumedCoins = wallet_1.collectCoins(pigcoins);
+        Map<String, Double> consumedCoins = wallet_1.loadCoins(pigcoins);
         System.out.println("Pigcoins enviados a la wallet_2 y transacciones consumidas: " + consumedCoins);
 
         /**
