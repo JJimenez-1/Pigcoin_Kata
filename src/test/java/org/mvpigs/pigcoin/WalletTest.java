@@ -6,6 +6,8 @@ package org.mvpigs.pigcoin;
 import org.junit.Test;
 
 import java.security.KeyPair;
+import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -26,6 +28,18 @@ public class WalletTest {
         wallet.setSK(pair.getPrivate());
         assertEquals(pair.getPrivate(), wallet.getSKey());
     }
+    /**
+    @Test
+    public void loadInputTransactionTest() {
+        BlockChain blockchain = new BlockChain();
+        KeyPair pair = GenSig.generateKeyPair();
+        Wallet wallet = new Wallet();
+        wallet.setAddress(pair.getPublic());
+        Wallet wallet2 = new Wallet();
+        wallet2.setAddress(pair.getPublic());
+        Transaction transaction = new Transaction("hash_49", "48", wallet.getAddress(), wallet2.getAddress(), 10, "Devuelvememelo")
+        wallet.loadInputTransactions(blockchain);
+    }*/
 
     /**
     @Test

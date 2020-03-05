@@ -14,6 +14,11 @@ public class BlockChain {
             System.out.println(transaction);
         }
     }
+
+    public List<Transaction> getBlockChain() {
+        return blockChain;
+    }
+
     public void summarize(Integer index) {
         System.out.println(blockChain.get(index));
     }
