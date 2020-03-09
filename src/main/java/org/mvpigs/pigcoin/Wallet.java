@@ -103,7 +103,7 @@ public class Wallet {
 
         Double achievedCoins = 0d;
 
-        Set<String> consumedCoins = new HashSet<>();
+        Set<String> consumedCoins = new HashSet<String>();
         if (getOutputTransactions() != null) {
             for (Transaction transaction : getOutputTransactions()) {
                 consumedCoins.add(transaction.getPrev_hash());
