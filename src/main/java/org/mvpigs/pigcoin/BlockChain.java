@@ -26,7 +26,7 @@ public class BlockChain {
         System.out.println(blockChain.get(index));
     }
 
-    public Map<String, Double> loadWallet(PublicKey address){
+    public double[] loadWallet(PublicKey address){
         Map<String, Double> pigcoins = new HashMap<String, Double>();
         pigcoins.put("input", 0d);
         pigcoins.put("output", 0d);

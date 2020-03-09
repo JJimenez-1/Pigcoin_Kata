@@ -52,19 +52,37 @@ public class Wallet {
         return this.total_input;
     }
 
+    public void setTotal_output(double total_output) {
+        this.total_output = total_output;
+    }
+    public double getTotalOutput() {
+        return this.total_output;
+    }
+
+    public void setInputTransactions(List<Transaction> inputTransactions) {
+        this.inputTransactions = inputTransactions;
+    }
     List<Transaction> getInputTransactions() {
-        return inputTransactions;
+        return this.inputTransactions;
+    }
+
+    public void setOutputTransactions(List<Transaction> outputTransactions) {
+        this.outputTransactions = outputTransactions;
     }
     List<Transaction> getOutputTransactions() {
-        return outputTransactions;
+        return this.outputTransactions;
+    }
+
+    public void updateBalance() {
+        this.balance = this.getTotalInput() - this.getTotalOutput();
     }
 
     public void loadCoins(BlockChain bChain) {
-        Map<String, Double> pigcoins = bChain.loadWallet(getAddress());
-        double balanceout = total_output + pigcoins.get("output");
-        double balancein = total_input + pigcoins.get("input");
-        double totalBalance = balance + balancein - balanceout;
-        setBalance(totalBalance);
+       double[] pigcoins = {0d, 0d};
+       pigcoins = bChain.loadWallet(getAddress());
+       setTotal_input(pigcoins[0]);
+       setTotal_output(pigcoins[1]);
+       updateBalance();
     }
 
     public void loadInputTransactions(BlockChain bChain) {
