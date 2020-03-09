@@ -14,8 +14,8 @@ public class Wallet {
     private double balance = 0d;
     private double total_input = 0d;
     private double total_output = 0d;
-    private List<Transaction> inputTransactions = new ArrayList<Transaction>();
-    private List<Transaction> outputTransactions = new ArrayList<Transaction>();
+    private List<Transaction> inputTransactions = null;
+    private List<Transaction> outputTransactions = null;
 
     public Wallet() {}
 
@@ -44,6 +44,14 @@ public class Wallet {
     public PrivateKey getSKey() {
         return sKey;
     }
+
+    public void setTotal_input(double total_input){
+        this.total_input = total_input;
+    }
+    public double getTotalInput() {
+        return this.total_input;
+    }
+
     List<Transaction> getInputTransactions() {
         return inputTransactions;
     }
