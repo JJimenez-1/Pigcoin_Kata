@@ -40,7 +40,7 @@ public class WalletTest {
         Wallet wallet2 = new Wallet();
         wallet2.setAddress(pair.getPublic());
         Transaction transaction = new Transaction("hash_49", "48", wallet.getAddress(), wallet2.getAddress(), 10, "Devuelvememelo");
-        Map<String, Double> pigcoins = blockchain.loadWallet(wallet.getAddress());
+        double[] pigcoins = blockchain.loadWallet(wallet.getAddress());
         wallet.loadCoins(blockchain);
         assertEquals(10, wallet2.getBalance(), 0.001);
     }

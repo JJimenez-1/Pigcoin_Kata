@@ -86,11 +86,7 @@ public class Wallet {
     }
 
     public void loadInputTransactions(BlockChain bChain) {
-        for (Transaction transaccion : bChain.getBlockChain()) {
-            if (transaccion.getpKey_recipient() == getAddress()) {
-                inputTransactions.add(transaccion);
-            }
-        }
+        setInputTransactions(bChain.loadInputTransactions(getAddress()));
     }
     public void loadOutputTransactions(BlockChain bChain) {
         for (Transaction transaccion : bChain.getBlockChain()) {

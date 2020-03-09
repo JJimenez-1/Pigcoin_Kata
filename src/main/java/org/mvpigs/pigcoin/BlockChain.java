@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BlockChain {
 
@@ -27,16 +28,33 @@ public class BlockChain {
     }
 
     public double[] loadWallet(PublicKey address){
-        Map<String, Double> pigcoins = new HashMap<String, Double>();
-        pigcoins.put("input", 0d);
-        pigcoins.put("output", 0d);
-        for (Transaction transaccion : getBlockChain()) {
-            if (transaccion.getpKey_recipient() == address) {
-                pigcoins.put("input",pigcoins.get("input") + transaccion.getPigcoins());
-            } else if (transaccion.getpKey_sender() == address) {
-                pigcoins.put("output", pigcoins.get("output") + transaccion.getPigcoins());
-            }
-        } return pigcoins;
+
+       double pigcoinsIn = 0d;
+       double pigcoinsOut= 0d;
+
+       for (Transaction transaction : getBlockChain()) {
+           if (address.equals(transaction.getpKey_recipient())) {
+               pigcoinsIn = pigcoinsIn + transaction.getPigcoins();
+           }
+           if (address.equals(transaction.getpKey_sender())) {
+               pigcoinsOut = pigcoinsOut + transaction.getPigcoins();
+           }
+       }
+       double[] pigcoins = {pigcoinsIn , pigcoinsOut};
+       return pigcoins;
+    }
+
+    public List<Transaction> loadInputTransactions(PublicKey address) {
+        List<Transaction> inputTransactions = getBlockChain().stream()
+                .filter(transaction -> transaction.getpKey_recipient().equals(address))
+                .collect(Collectors.toCollection(ArrayList<Transaction>::new));
+        return inputTransactions;
+    }
+    public List<Transaction> loadOutputTransaction(PublicKey address) {
+        List<Transaction> outputTransaction = getBlockChain().stream()
+                .filter(transaction -> transaction.getpKey_sender().equals(address))
+                .collect(Collectors.toCollection(ArrayList<Transaction>::new));
+        return outputTransaction;
     }
 
     public void addOrigin(Transaction transaction) {
