@@ -201,9 +201,9 @@ public class App {
          * Ten cuidado: no puedes utilizar transacciones entrantes (pigcoins)
          * que ya hayas enviado con anterioridad o el blockchain rechazara las nuevas
          */
-    /**
+
         Double pigcoins = 25d;
-        Map<String, Double> consumedCoins = wallet_1.loadCoins(pigcoins);
+        Map<String, Double> consumedCoins = wallet_1.collectCoins(pigcoins);
         System.out.println("Pigcoins enviados a la wallet_2 y transacciones consumidas: " + consumedCoins);
 
         /**
@@ -211,7 +211,7 @@ public class App {
          * envialas al blockchain.
          * Debes firmar el mensaje con tu clave privada.
          */
-    /**
+
         String message = "he roto la hucha :(";
         byte[] signedTransaction = wallet_1.signTransaction(message); // usa GenSig.sign()
         wallet_1.sendCoins(wallet_2.getAddress(), pigcoins, message, bChain); // usa wallet.collectCoins() y bChain.processTransactions()
@@ -245,7 +245,7 @@ public class App {
          * bChain.processTransactions(wallet_1.getAddress(), wallet_2.getAddress(), consumedCoins, message, signedTransaction);
          * bChain.createTransaction(pKey_sender, pKey_recipient, consumedCoins,message, signedTransaction);
          */
-    /**
+
         System.out.println("\n" + "Ver el total de pigcoins de las dos wallet" + "\n" +
                 "=========================================="            );
         // comprobamos que la transaccion se ha realizado
@@ -294,6 +294,5 @@ public class App {
         wallet_2.loadInputTransactions(bChain);
         wallet_2.loadOutputTransactions(bChain);
         System.out.println(wallet_2.toString());
-        */
     }
 }

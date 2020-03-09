@@ -44,18 +44,55 @@ public class WalletTest {
         wallet.loadCoins(blockchain);
         assertEquals(10, wallet2.getBalance(), 0.001);
     }
-    /**
     @Test
-    public void loadInputTransactionTest() {
-        BlockChain blockchain = new BlockChain();
-        KeyPair pair = GenSig.generateKeyPair();
-        Wallet wallet = new Wallet();
-        wallet.setAddress(pair.getPublic());
-        Wallet wallet2 = new Wallet();
-        wallet2.setAddress(pair.getPublic());
-        Transaction transaction = new Transaction("hash_49", "48", wallet.getAddress(), wallet2.getAddress(), 10, "Devuelvememelo")
-        wallet.loadInputTransactions(blockchain);
-    }*/
+    public void send_transaction_test() {
+
+        Wallet origin = new Wallet();
+        origin.generateKeyPair();
+        Wallet wallet_1 = new Wallet();
+        wallet_1.generateKeyPair();
+        Wallet wallet_2 = new Wallet();
+        wallet_2.generateKeyPair();
+
+        BlockChain bChain = new BlockChain();
+        Transaction transaction = new Transaction("hash_1", "0", origin.getAddress(), wallet_1.getAddress(), 20, "a flying pig!");
+        bChain.addOrigin(transaction);
+        transaction = new Transaction("hash_2", "1", origin.getAddress(), wallet_2.getAddress(), 10, "pig things!");
+        bChain.addOrigin(transaction);
+
+        wallet_1.loadCoins(bChain);
+        assertEquals(20, wallet_1.getTotalInput(), 0);
+        assertEquals(0, wallet_1.getTotalOutput(), 0);
+        assertEquals(20, wallet_1.getBalance(), 0);
+        wallet_1.loadInputTransactions(bChain);
+        assertTrue(wallet_1.getInputTransactions().size() == 1);
+
+        wallet_2.loadCoins(bChain);
+        assertEquals(10, wallet_2.getTotalInput(), 0);
+        assertEquals(0, wallet_2.getTotalOutput(), 0);
+        assertEquals(10, wallet_2.getBalance(), 0);
+        wallet_2.loadInputTransactions(bChain);
+        assertTrue(wallet_2.getInputTransactions().size() == 1);
+
+        // enviamos una transaccion que supone un change address
+
+        wallet_1.sendCoins(wallet_2.getAddress(), 10.2d, "pig things!", bChain);
+        assertEquals(4, bChain.getBlockChain().size(), 0);
+
+        wallet_1.loadInputTransactions(bChain);
+        assertEquals(2, wallet_1.getInputTransactions().size());
+        assertEquals(20d, wallet_1.getInputTransactions().get(0).getPigcoins(), 0);
+        assertEquals(9.8d, wallet_1.getInputTransactions().get(1).getPigcoins(), 0);
+
+        wallet_1.loadOutputTransactions(bChain);
+        assertEquals(2, wallet_1.getOutputTransactions().size(), 0);
+        assertEquals(10.2d, wallet_1.getOutputTransactions().get(0).getPigcoins(), 0);
+        assertEquals(9.8d, wallet_1.getOutputTransactions().get(1).getPigcoins(), 0);
+
+        assertEquals(9.8, wallet_1.getBalance(), 0);
+        wallet_2.loadCoins(bChain);
+        assertEquals(20.2, wallet_2.getBalance(), 0);
+    }
 
     /**
     @Test
