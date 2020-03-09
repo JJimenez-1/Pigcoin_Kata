@@ -3,9 +3,7 @@ package org.mvpigs.pigcoin;
 import java.security.KeyPair;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Wallet {
 
@@ -89,17 +87,73 @@ public class Wallet {
         setInputTransactions(bChain.loadInputTransactions(getAddress()));
     }
     public void loadOutputTransactions(BlockChain bChain) {
-        for (Transaction transaccion : bChain.getBlockChain()) {
-            if (transaccion.getpKey_recipient() == getAddress()) {
-                outputTransactions.add(transaccion);
+        setOutputTransactions(bChain.loadOutputTransaction(getAddress()));
+    }
+    public Map<String, Double> collectCoins(double pigcoins) {
+
+        Map<String, Double> collectedCoins = new LinkedHashMap<>();
+
+        if (getInputTransactions() == null) {
+            return null;
+        }
+
+        if (pigcoins > getBalance()) {
+            return null;
+        }
+
+        Double achievedCoins = 0d;
+
+        Set<String> consumedCoins = new HashSet<>();
+        if (getOutputTransactions() != null) {
+            for (Transaction transaction : getOutputTransactions()) {
+                consumedCoins.add(transaction.getPrev_hash());
             }
         }
+
+        for (Transaction transaction : getInputTransactions()) {
+
+            if (consumedCoins.contains(transaction.getHash())) {
+                continue;
+            }
+
+            if (transaction.getPigcoins() == pigcoins) {
+                collectedCoins.put(transaction.getHash(), transaction.getPigcoins());
+                consumedCoins.add(transaction.getHash());
+                break;
+            } else if (transaction.getPigcoins() > pigcoins) {
+                collectedCoins.put(transaction.getHash(), pigcoins);
+                collectedCoins.put("CA_" + transaction.getHash(), transaction.getPigcoins() - pigcoins);
+                consumedCoins.add(transaction.getHash());
+                break;
+            } else {
+                collectedCoins.put(transaction.getHash(), transaction.getPigcoins());
+                achievedCoins = transaction.getPigcoins();
+                pigcoins = pigcoins - achievedCoins;
+                consumedCoins.add(transaction.getHash());
+            }
+
+        }
+        // getInputTransactions().removeAll(consumedCoins);
+        return collectedCoins;
+    }
+
+    public byte[] signTransaction(String message) {
+        return GenSig.sign(getSKey(), message);
+    }
+
+    public void sendCoins(PublicKey pkey_Recipient, Double coins, String message, BlockChain bChain) {
+        Map<String, Double> consumedCoins = new LinkedHashMap<>();
+        consumedCoins = collectCoins(coins);
+        if(consumedCoins != null) {
+            bChain.processTransactions(getAddress(), pkey_Recipient, consumedCoins, message, signTransaction(message));
+        }
+        this.loadCoins(bChain);
     }
 
     @Override
     public String toString(){
         return '\n' + "Wallet = " + getAddress().hashCode() + '\n' + "Total input = "
-                + total_input + '\n' + "Total output = "
-                + total_output + '\n' + "Balance = " + balance + '\n';
+                + getTotalInput() + '\n' + "Total output = "
+                + getTotalOutput() + '\n' + "Balance = " + getBalance() + '\n';
     }
 }

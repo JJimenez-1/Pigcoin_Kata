@@ -57,6 +57,47 @@ public class BlockChain {
         return outputTransaction;
     }
 
+    public void createTransaction(PublicKey pKey_sender, PublicKey pKey_recipient, Map<String, Double> consumedCoins,
+                                  String message, byte[] signedTransaction) {
+
+        PublicKey address_recipient = pKey_recipient;
+        Integer lastBlock = 0;
+
+        for (String prev_hash : consumedCoins.keySet()) {
+
+            if (prev_hash.startsWith("CA_")) {
+                pKey_recipient = pKey_sender;
+            }
+
+            lastBlock = blockChain.size() + 1;
+            Transaction transaction = new Transaction("hash_" + lastBlock.toString(), prev_hash, pKey_sender,
+                    pKey_recipient, consumedCoins.get(prev_hash), message);
+            getBlockChain().add(transaction);
+
+            pKey_recipient = address_recipient;
+        }
+    }
+
+    public boolean isSignatureValid(PublicKey pKey, String message, byte[] signedTransaction) {
+        return GenSig.verify(pKey, message, signedTransaction);
+    }
+    public boolean isConsumedCoinValid(Map<String, Double> consumedCoins){
+        for (String hash : consumedCoins.keySet()) {
+            for (Transaction transaction : blockChain) {
+                if (hash.equals(transaction.getPrev_hash())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public void processTransactions(PublicKey pKey_sender, PublicKey pKey_Recipient, Map<String, Double> consumedCoins,
+                                    String message, byte[] signedTransaction) {
+        if (isSignatureValid(pKey_sender, message, signedTransaction) && isConsumedCoinValid(consumedCoins)) {
+            createTransaction(pKey_sender, pKey_Recipient, consumedCoins, message, signedTransaction);
+        }
+    }
+
     public void addOrigin(Transaction transaction) {
         blockChain.add(transaction);
     }

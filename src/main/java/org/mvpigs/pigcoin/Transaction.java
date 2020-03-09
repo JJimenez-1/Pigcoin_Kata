@@ -67,6 +67,7 @@ public class Transaction {
         this.pigcoins = pigcoins;
     }
 
+    public byte[] getSignature() {return signature;}
     @Override
     public String toString() {
         return '\n' + "hash = " + getHash() + '\n' + "prev_hash = " +
